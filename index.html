@@ -1,0 +1,185 @@
+<!doctype html>
+<html>
+  <head>
+  <link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript" src="jquery.leddisplay.js"></script>
+<script type="text/javascript">
+	var options = {
+			pixelSize: 5, 
+			stepDelay: 40, 
+			horizontalPixelsCount:50,
+			verticalPixelsCount:5,
+			pixelRatio: 0.8
+		};
+</script>
+    <script>
+      var socket = io.connect();
+
+      $(function () {
+        socket.on('tweets', function (tweets) {
+	
+	var data = $.parseJSON(JSON.stringify(tweets));
+	console.log(data.mydata);
+	//console.log(data.es);
+
+	//$.each(tweets, function (i, tweet) {
+            //$('#tweets').prepend($('<li>').text(tweet));
+	    //$('.crl').remove();
+	   // $('.crl_es').remove();
+	  //$('body').prepend('<div class=\"crl\" style=\"margin-left: auto; margin-right: auto;\"></div><br><br>');
+	 // $('body').prepend('<div class=\"crl_es\" style=\"margin-left: auto; margin-right: auto;\"></div>');
+	    $('.crl').replaceWith('<div class=\"crl\" style=\"margin-left: auto; margin-right: auto;opacity:0.5\"></div>');
+	    $('.crl_es').replaceWith('<div class=\"crl_es\" style=\"margin-left: auto; margin-right: auto;opacity:0.5\"></div>');
+	    $('.crl_fr').replaceWith('<div class=\"crl_fr\" style=\"margin-left: auto; margin-right: auto;opacity:0.5\"></div>');
+	    $('.crl_de').replaceWith('<div class=\"crl_de\" style=\"margin-left: auto; margin-right: auto;opacity:0.5\"></div>');
+	   $('.crl').html(data.mydata);
+	    $('.crl').leddisplay($.extend(options, {pixelSize: 20}));
+	    $('.crl_es').html(data.es);
+	    $('.crl_es').leddisplay($.extend(options, {pixelSize: 20}));
+	    $('.crl_fr').html(data.fr);
+	    $('.crl_fr').leddisplay($.extend(options, {pixelSize: 20}));
+	    $('.crl_de').html(data.de);
+	    $('.crl_de').leddisplay($.extend(options, {pixelSize: 20}));
+         // });
+        });
+	
+	socket.on('mp3', function (mp3) {
+	var mp3list = $.parseJSON(JSON.stringify(mp3));
+		$("#player_en").attr("src",mp3list.mp3EN);
+		$("#player_es").attr("src",mp3list.mp3ES);
+		$("#player_fr").attr("src",mp3list.mp3FR);
+		$("#player_de").attr("src",mp3list.mp3DE).trigger("play"); 
+		
+	
+	
+	});
+
+        socket.on('someone connected', function () {
+          $('body').prepend('<p>someone just connected!</p>');
+        });
+
+        socket.emit('some event');
+      });
+    </script>
+    <STYLE TYPE="text/css" >
+    .gradient {
+background: rgb(184,198,223); /* Old browsers */
+background: -moz-linear-gradient(-45deg,  rgba(184,198,223,1) 0%, rgba(109,136,183,1) 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(184,198,223,1)), color-stop(100%,rgba(109,136,183,1))); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(-45deg,  rgba(184,198,223,1) 0%,rgba(109,136,183,1) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(-45deg,  rgba(184,198,223,1) 0%,rgba(109,136,183,1) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(-45deg,  rgba(184,198,223,1) 0%,rgba(109,136,183,1) 100%); /* IE10+ */
+background: linear-gradient(135deg,  rgba(184,198,223,1) 0%,rgba(109,136,183,1) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b8c6df', endColorstr='#6d88b7',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+
+}
+    </STYLE>
+    <title>Hackathon Page</title>
+  </head>
+<body class="gradient"> 
+
+ 
+    
+    
+    <div >
+	<h1 align="center">English<h1>
+	<div class="crl" style="margin-left: auto; margin-right: auto;opacity:0.5"> Standby</div>
+	<div style="margin-left: auto; margin-right: auto;width: 1000px; height: 100px;">
+	<audio id="player_en" loop="loop" type="audio/mpeg" controls></audio>
+	</div>
+   </div>
+    <div >
+	<h1 align="center">German</h1>
+	<div class="crl_de" style="margin-left: auto; margin-right: auto;opacity:0.5"> Standby</div>
+	<div style="margin-left: auto; margin-right: auto;width: 1000px; height: 100px;">
+	<audio id="player_de" loop="loop" type="audio/mpeg" controls></audio>
+	</div>
+   </div> 
+    <div >
+	<h1 align="center">Spanish</h1>
+	<div class="crl_es" style="margin-left: auto; margin-right: auto;opacity:0.5"> Standby</div>
+	<div style="margin-left: auto; margin-right: auto;width: 1000px; height: 100px;">
+	<audio id="player_es" loop="loop" type="audio/mpeg" controls></audio>
+	</div>
+   </div>
+    <div >
+	<h1 align="center">French</h1>
+	<div class="crl_fr" style="margin-left: auto; margin-right: auto;opacity:0.5"> Standby</div>
+	<div style="margin-left: auto; margin-right: auto;width: 1000px; height: 100px;">
+	<audio id="player_fr" loop="loop" type="audio/mpeg" controls></audio>
+	</div>
+   </div>
+
+
+
+<script type="text/javascript">
+		$('.crl').leddisplay($.extend(options, {pixelSize: 20}));
+		$('.crl_es').leddisplay($.extend(options, {pixelSize: 20}));
+		$('.crl_fr').leddisplay($.extend(options, {pixelSize: 20}));
+		$('.crl_de').leddisplay($.extend(options, {pixelSize: 20}));
+		$("#player_en").bind("play", function() {
+			$('.crl').css({ opacity: 1.0 });
+			$('.crl_es').css({ opacity: 0.5 });
+			$('.crl_fr').css({ opacity: 0.5 });
+			$('.crl_de').css({ opacity: 0.5 });
+			$("#player_es").trigger("pause");
+			$("#player_fr").trigger("pause");
+			$("#player_de").trigger("pause"); 
+			$("#player_es").currentTime = 0;
+		       $("#player_es").load();
+		       $("#player_fr").currentTime = 0;
+		       $("#player_fr").load();
+		       $("#player_de").currentTime = 0;
+		       $("#player_de").load();
+		});
+		$("#player_de").bind("play", function() {       
+			$('.crl').css({ opacity: 0.5 });
+			$('.crl_es').css({ opacity: 0.5 });
+			$('.crl_fr').css({ opacity: 0.5 });
+			$('.crl_de').css({ opacity: 1.0 });
+			$("#player_es").trigger("pause");
+			$("#player_fr").trigger("pause");
+			$("#player_en").trigger("pause"); 
+			$("#player_es").currentTime = 0;
+		       $("#player_es").load();
+		       $("#player_fr").currentTime = 0;
+		       $("#player_fr").load();
+		       $("#player_en").currentTime = 0;
+		       $("#player_en").load();
+		});
+		$("#player_es").bind("play", function() {  
+			$('.crl').css({ opacity: 0.5 });
+			$('.crl_es').css({ opacity: 1.0 });
+			$('.crl_fr').css({ opacity: 0.5 });
+			$('.crl_de').css({ opacity: 0.5 });		
+			$("#player_en").trigger("pause");
+			$("#player_fr").trigger("pause");
+			$("#player_de").trigger("pause"); 
+			$("#player_en").currentTime = 0;
+		       $("#player_en").load();
+		       $("#player_fr").currentTime = 0;
+		       $("#player_fr").load();
+		       $("#player_de").currentTime = 0;
+		       $("#player_de").load();
+		});
+		$("#player_fr").bind("play", function() {
+			$('.crl').css({ opacity: 0.5 });
+			$('.crl_es').css({ opacity: 0.5 });
+			$('.crl_fr').css({ opacity: 1.0 });
+			$('.crl_de').css({ opacity: 0.5 });		
+			$("#player_es").trigger("pause");
+			$("#player_en").trigger("pause");
+			$("#player_de").trigger("pause"); 
+			$("#player_es").currentTime = 0;
+		       $("#player_es").load();
+		       $("#player_en").currentTime = 0;
+		       $("#player_en").load();
+		       $("#player_de").currentTime = 0;
+		       $("#player_de").load();
+		});
+	</script>
+
+  </body>
+</html>
